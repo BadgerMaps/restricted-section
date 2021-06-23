@@ -32,8 +32,10 @@ passport.use(new GoogleStrategy(
     }/authenticate/google/callback`
   },
   function(accessToken, refreshToken, profile, done) {
-    if (allowedDomains.indexOf(profile._json.domain) > -1) {
-      console.log(`${ profile.emails[0].value } just authenticated`)
+    var profile_email = profile.emails[0].value
+    var profile_domain = profile_email.split("@")[1]
+    if (allowedDomains.indexOf(profile_domain) > -1) {
+      console.log(`${ profile_email } just authenticated`)
       return done(null, profile)
     } else {
       return done(`Unauthorised email domain. Allowed domains are <strong>${ allowedDomains.join(", ") }</strong>`)
